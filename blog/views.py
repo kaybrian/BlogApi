@@ -11,7 +11,7 @@ def home(request):
     api_urls = {
         'Create':'/create-blog/',
         'Update':'/update-blog/<str:pk>/',
-        'Delete':'/create-blog/<str:pk>/',
+        'Delete':'/delete-blog/<str:pk>/',
         'View-blogs':'/view-blog-list/',
         'View-blog Details':'/view-blog-detail/<str:pk>/',
     }
@@ -44,3 +44,9 @@ def BlogDetails(request,pk):
     blog = Blog.objects.get(id=pk)
     serialiser = BlogSerializer(blog,many=False)
     return Response(serialiser.data)
+
+@api_view(['DELETE'])
+def DeleteBlogs(request,pk):
+    blog = Blog.objects.get(id=pk)
+    blog.delete()
+    return Response('The blog was deleted Successfully')

@@ -3,6 +3,8 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from .serializer import BlogSerializer
 from .models import Blog
+
+
 # Create your views here.
 @api_view(['GET'])
 def home(request):
@@ -19,4 +21,11 @@ def home(request):
 def ViewBlogs(request):
     blogs = Blog.objects.all()
     serialiser = BlogSerializer(blogs, many=True)
+    return Response(serialiser.data)
+
+@api_view(['POST'])
+def CreateBlogs(request):
+    serialiser = BlogSerializer(data=request.data)
+    if serialiser.is_valid():
+        serialiser.save()
     return Response(serialiser.data)

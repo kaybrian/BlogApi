@@ -29,3 +29,18 @@ def CreateBlogs(request):
     if serialiser.is_valid():
         serialiser.save()
     return Response(serialiser.data)
+
+@api_view(['POST'])
+def UpdateBlogs(request,pk):
+    blog = Blog.objects.get(id=pk)
+    serialiser = BlogSerializer(instance=blog, data=request.data)
+    if serialiser.is_valid():
+        serialiser.save()
+    return Response(serialiser.data)
+
+
+@api_view(['GET'])
+def BlogDetails(request,pk):
+    blog = Blog.objects.get(id=pk)
+    serialiser = BlogSerializer(blog,many=False)
+    return Response(serialiser.data)
